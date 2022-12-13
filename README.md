@@ -21,3 +21,10 @@ The ASP.NET Core app "ChatRoom" is an app for creating chat rooms and managing t
   - Remove user from an existing chat room: `/ChatRoom/RemoveUser/:chatId`
 
 ## Screenshots
+![main-page](https://user-images.githubusercontent.com/72888249/207466136-e0e7487f-8759-4f5c-9680-a602655a7493.png)
+![register-page](https://user-images.githubusercontent.com/72888249/207465721-f0eaee33-09b7-4c61-84ff-94607e4abae6.png)
+![login-page](https://user-images.githubusercontent.com/72888249/207465943-89bec126-e98b-4557-b9b2-111c2812ccaf.png)
+![main-page-logged](https://user-images.githubusercontent.com/72888249/207465889-3bde63cc-67ff-4837-a396-77b5804c3c80.png)
+![chat-room](https://user-images.githubusercontent.com/72888249/207465978-68ce3db1-6a75-4a38-889f-e79d74140b96.png)
+![user-add](https://user-images.githubusercontent.com/72888249/207466007-62341737-57cd-4da5-9589-9335b96b1414.png)
+![user-remove](https://user-images.githubusercontent.com/72888249/207466035-eb399221-8266-470b-8413-fbf9f25638b1.png)
