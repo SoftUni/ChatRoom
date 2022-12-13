@@ -1,0 +1,25 @@
+﻿@model ChatRoomModel
+@{
+    this.ViewData["Title"] = "Delete Chat Room";
+}
+
+<link href="~/css/style.css" rel="stylesheet" type="text/css" />
+
+<h2 class="text-center">@this.ViewBag.Title</h2>
+<hr />
+
+<form asp-action="Delete" asp-controller="ChatRoom">
+    <table class="tasks-entry form">
+	    <tr>
+            <th>
+                <label asp-for="Name" class="control-label"></label>
+            </th>
+            <td>
+                <input asp-for="Name" class="form-control" disabled="disabled"></input>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Delete" class="btn btn-primary" />
+</form>
+
+

@@ -1,0 +1,19 @@
+﻿@model ChatRoomFormModel
+
+@{
+    ViewBag.Title = "Edit Chat Room";
+}
+
+<link href="~/css/style.css" rel="stylesheet" type="text/css" />
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<form asp-action="Edit" asp-controller="ChatRoom">
+    @await Html.PartialAsync("_ChatRoomFormPartial.cshtml", Model)
+    <input class="btn btn-primary" type="submit" value="Edit" />
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

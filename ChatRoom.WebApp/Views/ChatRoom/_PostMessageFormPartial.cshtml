@@ -1,0 +1,13 @@
+﻿@model MessageFormModel
+
+<div class="col-8">
+	<label>Message:</label>
+	<textarea asp-for="NewMessage"
+                      class="form-control" rows="3"></textarea>
+</div>
+<div class="col-4">
+	<label>Sender Name: </label>
+	<input asp-for="CurrentUser" class="form-control" disabled>
+	<input class="btn btn-primary mt-2
+                   float-lg-right" type="submit" value="Send" />
+</div>

@@ -1,0 +1,61 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<section class="home-page">
+    @if (!this.User.Identity.IsAuthenticated)
+    {
+        <h1 class="text-center">ChatRoom: A Place for Your Messages</h1>
+        <hr class="hr-2 bg-dark" />
+        <h3 class="mt-4"><a class="font-weight-bold" href="/Identity/Account/Login">Login</a> to start chatting.</h3>
+        <h5>(Default user credentials: <b>guest</b> / <b>guest</b>)</h5>
+        <h3 class="mt-4"><a class="font-weight-bold" href="/Identity/Account/Register">Register</a> if you don't have an account.</h3>
+    }
+    else
+    {
+        <h1 class="text-center">Welcome, @this.User.Identity.Name</h1>
+        <hr class="hr-2 bg-secondary" />
+        <h4 class="mt-4 text-center">ChatRoom is here for all your chatting needs.</h4>
+    }
+</section>
+
+@if (this.User.Identity.IsAuthenticated)
+{
+	<div class="home-page-icons">
+		@foreach (ChatRoomModel chatRoom in this.Model.ChatRooms)
+		{
+			<div class="newIcon" asp-area="" asp-controller="ChatRoom" asp-action="Details" asp-route-id="@chatRoom.Id">
+				<span class="icon">🗫</span>
+				@if (chatRoom.Owner == this.User.Identity.Name)
+				{
+					<div>
+						<span>Chatroom: <b>@chatRoom.Name</b></span>
+						<br/>
+						<a class="my-1" style="display: inline-block;"  asp-controller="ChatRoom" asp-action="Details" asp-route-id="@chatRoom.Id">[View]</a>
+						<span class="mx-2">|</span>
+						<a class="my-1" style="display: inline-block;" asp-controller="ChatRoom" asp-action="Edit" asp-route-id="@chatRoom.Id">[Edit]</a>
+						<span class="mx-2">|</span>
+						<a class="my-1" style="display: inline-block;" asp-controller="ChatRoom" asp-action="Delete" asp-route-id="@chatRoom.Id">[Delete]</a>
+					</div>
+				}
+				else
+				{
+					<div>
+						<span>Chatroom: <b>@chatRoom.Name</b></span>
+						<br/>
+						<a class="my-1" style="display: inline-block;" asp-controller="ChatRoom" asp-action="Details" asp-route-id="@chatRoom.Id">[View]</a>
+					</div>
+				}
+			</div>
+		}
+		<hr/>
+		<a asp-controller="ChatRoom" asp-action="Create" class="btn btn-primary">Create Chat Room</a>
+	</div>
+}
+
+
+
+
+
+

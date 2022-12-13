@@ -1,0 +1,7 @@
+﻿@model UserFormModel
+@{
+	this.ViewData["Title"] = "Add User to Chat";
+	this.ViewData["Type"] = "add";
+}
+
+@await this.Html.PartialAsync("_UserFormPartial", this.Model)

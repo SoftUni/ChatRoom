@@ -1,0 +1,94 @@
+﻿@using System.Security.Claims
+@using ChatRoom.WebApp.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ChatRoomViewModel
+@{
+	ViewBag.Title = "Messages";
+}
+
+<style>
+	.scroll {
+		max-height: 330px;
+		overflow-y: scroll;
+	}
+</style>
+
+<div class="row">
+	<div class="col-8">
+		<h3>Messages: <a asp-action="Details" asp-route-id="@this.Model.Id" style="text-decoration: none">🔃</a></h3>
+		@if (this.Model.Messages.Any())
+		{
+			<div class="scroll" id="messageBox">
+			@foreach (MessageViewModel message in this.Model.Messages)
+			{
+				<div class="card .bg-light col-12">
+					<div class="card-body">
+						<blockquote class="blockquote mb-0">
+							<p>@message.Content
+							<p>
+							<footer class="blockquote-footer">@message.Owner</footer>
+						</blockquote>
+					</div>
+				</div>
+			}
+			</div>
+		}
+		else
+		{
+			<p>No messages yet!</p>
+		}
+	</div>
+	
+	<div class="col-4">
+		<h3>Members:</h3>
+		@if (this.Model.Members.Any())
+		{
+			<div class="scroll">
+				@foreach (string username in this.Model.Members)
+				{
+					<div class="card .bg-light col-12">
+						<div class="card-body">
+							<p>@username<p>
+						</div>
+					</div>
+				}
+			</div>
+		}
+		else
+		{
+			<p>No members yet!</p>
+		}
+		@if (this.User.Id() == this.Model.OwnerId)
+		{
+			<div class="mt-3">
+				<a class="btn btn-primary" asp-action="AddUser" asp-route-chatRoomId="@this.Model.Id">Add</a>
+				<a class="btn btn-primary" asp-action="RemoveUser" asp-route-chatRoomId="@this.Model.Id">Remove</a>
+			</div>
+		}
+	</div>
+</div>
+
+<p></p>
+<form asp-controller="Messages" asp-action="Create" asp-route-chatRoomId="@this.Model.Id" method="post" class="mb-3">
+	<div class ="form-group card-header row">
+		<div class="col-12">
+			<h5>Send a new message</h5>
+		</div>
+		@await this.Html.PartialAsync("_PostMessageFormPartial", new MessageFormModel
+		{
+			CurrentUser = this.Model.CurrentUser,
+		})
+		@if (this.TempData.ContainsKey("Error"))
+		{
+			<span class="text-danger">@this.TempData["Error"]</span>
+		}
+		<input type="hidden" asp-for="Id" value="@this.Model.Id"/>
+	</div>
+</form>
+
+@section Scripts {
+	<script>
+		var messageBody = document.querySelector('#messageBox');
+		messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+	</script>
+}

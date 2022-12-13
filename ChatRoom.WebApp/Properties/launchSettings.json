@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ChatRoom.WebApp": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:13369;http://localhost:13370"
+    }
+  }
+}
