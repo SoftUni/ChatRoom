@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 
 using ChatRoom.Data;
 using ChatRoom.WebApp.Claims;
@@ -9,7 +7,6 @@ using ChatRoom.WebApp.Models.ChatRoom;
 using ChatRoom.WebApp.Models.Message;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,14 +16,11 @@ namespace ChatRoom.WebApp.Controllers
     public class ChatRoomController : Controller
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<ChatUser> userManager;
 
         public ChatRoomController(
-            ApplicationDbContext context,
-            UserManager<ChatUser> userManager)
+            ApplicationDbContext context)
         {
             this.dbContext = context;
-            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -42,7 +36,7 @@ namespace ChatRoom.WebApp.Controllers
                 .Select(x => x.ChatUserId)
                 .ToList();
 
-            if (!chatRoomUsers.Contains(this.userManager.GetUserAsync(this.User).Result.Id))
+            if (!chatRoomUsers.Contains(this.User.Id()))
             {
                 return this.Unauthorized();
             }
@@ -55,7 +49,7 @@ namespace ChatRoom.WebApp.Controllers
                 .Select(c => new ChatRoomViewModel
                 {
                     Id = c.Id,
-                    CurrentUser = this.userManager.GetUserName(this.User),
+                    CurrentUser = this.dbContext.Users.Find(this.User.Id()).UserName,
                     OwnerId = c.OwnerId,
                     Messages = c.Messages.Select(m => new MessageViewModel
                     {
@@ -226,7 +220,7 @@ namespace ChatRoom.WebApp.Controllers
                     .Select(cru => cru.ChatUserId)
                     .ToList();
 
-            ICollection<ChatUser> usersNotInRoom = this.userManager.Users
+            ICollection<ChatUser> usersNotInRoom = this.dbContext.Users
                 .Where(u => !chatRoomMembers.Contains(u.Id))
                 .ToList();
 

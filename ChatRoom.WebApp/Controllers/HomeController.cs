@@ -2,6 +2,7 @@
 using System.Linq;
 
 using ChatRoom.Data;
+using ChatRoom.WebApp.Claims;
 using ChatRoom.WebApp.Models.ChatRoom;
 using ChatRoom.WebApp.Models.Home;
 
@@ -13,12 +14,10 @@ namespace ChatRoom.WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<ChatUser> userManager;
 
-        public HomeController(ApplicationDbContext context, UserManager<ChatUser> userManager)
+        public HomeController(ApplicationDbContext context)
         {
             this.dbContext = context;
-            this.userManager = userManager;
         }
 
         public IActionResult Index()
@@ -28,7 +27,7 @@ namespace ChatRoom.WebApp.Controllers
                 return this.View();
             }
 
-            ChatUser user = this.userManager.GetUserAsync(this.User).Result;
+            ChatUser user = this.dbContext.Users.Find(this.User.Id());
             List<int> userChatRooms = this.dbContext.ChatRoomsUsers
                 .Where(x => x.ChatUserId == user.Id)
                 .Select(x => x.ChatRoomId)
